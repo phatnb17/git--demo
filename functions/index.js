@@ -10,7 +10,7 @@ const app = express();
 
 app.get("/screams", (req, res) => {
   admin
-    .firestone()
+    .firestore()
     .collection("screams")
     .orderBy("createdAt", "desc")
     .get()
