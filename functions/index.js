@@ -33,11 +33,11 @@ app.post("/scream", (req, res) => {
   const newScream = {
     body: req.body.body,
     userHandle: req.body.userHandle,
-    createdAt: new Date().toISOString(),
+    createdAt: new Date().toISOString()
   };
 
   admin
-    .firestone()
+    .firestore()
     .collection("screams")
     .add(newScream)
     .then((doc) => {
@@ -49,4 +49,4 @@ app.post("/scream", (req, res) => {
     });
 });
 
-exports.api = functions.https.onRequest(app);
+exports.api = functions.region('asia-northeast1').https.onRequest(app);
