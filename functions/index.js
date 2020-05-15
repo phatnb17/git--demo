@@ -57,7 +57,7 @@ app.post("/scream", (req, res) => {
     .collection("screams")
     .add(newScream)
     .then((doc) => {
-      res.json({ message: `document ${doc.id} created successfully` });
+      res.json({ message: `document ${doc.id}  created successfully` });
     })
     .catch((err) => {
       res.status(500).json({ error: "something went wrong" });
@@ -76,8 +76,7 @@ app.post('/signup',(req,res) => {
   .auth()
   .createUserWithEmailAndPassword(newUser.email, newUser.password)
   .then(data => {
-      return res.status(201).json({message: 'user ${data.user.uid} signup success'});
-
+      return  res.json({ message: `user ${data.user.uid}  created successfully` });
   })
   .catch((err) => {
     console.error(err);
