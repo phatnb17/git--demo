@@ -23,6 +23,8 @@ firebase.initializeApp(config);
 const db = admin.firestore();
 
 app.get("/screams", (req, res) => {
+
+  
   db.collection("screams")
     .orderBy("createdAt", "desc")
     .get()
