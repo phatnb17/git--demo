@@ -4,6 +4,7 @@ const serviceAccount = require('./../key/localhost.json')
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://tutorial-267c7.firebaseio.com",
     storageBucket: "tutorial-267c7.appspot.com"
   });
 

@@ -5,7 +5,7 @@ const config =require('../util/config');
 const firebase = require('firebase');
 firebase.initializeApp(config);
 
-const {validateSignupData, validateLoginData} = require('../util/validators');
+const {validateSignupData, validateLoginData, reduceUserDetails} = require('../util/validators');
 
 exports.signup = (req, res) => {
     const newUser = {
@@ -88,7 +88,46 @@ exports.signup = (req, res) => {
         } else return res.status(500).json({ error: err.code });
       });
   };
+  //get own user details
+  exports.getAuthenticatedUser =  (req, res) => {
+    let userData = {};
+    db.doc(`/users/${req.user.handle}`)
+    .get()
+    .then(doc=>{
+      if(doc.exists){
+        userData.credentials = doc.data();
+        return db.collection("likes")
+        .where("userHandle","==",req.user.handle)
+        .get();
+      }
+    })
+    .then(data=>{
+      userData.likes=[];
+      data.forEach((doc)=>{
+        userData.likes.push(doc.data());
+      });
+      return res.json(userData);
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({err:err.code});
+    });
+  }
+  //details
+exports.addUserDetails = (req, res) => {
+  let userDetails = reduceUserDetails(req.body);
 
+  db.doc(`/users/${req.user.handle}`)
+  .update(userDetails)
+  .then(()=> {
+    return res.json({message: "details added successfully"});
+  })
+  .catch((err) => {
+    console.error(err);
+    return res.status(500).json({err:err.code});
+  });
+};
+// Image
   exports.upLoadImage =  (req, res)=>{
     
     const BusBoy = require("busboy");
