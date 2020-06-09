@@ -166,7 +166,7 @@ exports.unlikeScream = (req, res) => {
         return likeDocument.get();
       } else {
         return res.status(404).json({ error: "something went wrong" });
-      }
+      } 
     })
     .then((data) => {
       if (data.empty) {
